@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!--Colores utilizados en el juego-->
+    <color name="green">#299362</color>
+    <color name="red">#A72501</color>
+    <color name="yellow">#B5AF19</color>
+    <color name="blue">#1F8FA7</color>
+    <color name="green_pressed">#61FA01</color>
+    <color name="red_pressed">#F83F00</color>
+    <color name="yellow_pressed">#FFF700</color>
+    <color name="blue_pressed">#3EEAFE</color>
 </resources>
