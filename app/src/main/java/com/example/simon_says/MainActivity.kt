@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val greenButton: Button = findViewById(R.id.green_button)
         greenButton.setOnClickListener {
-            greenButton.background.setTint(getColor(R.color.green_pressed))
+            Toast.makeText(this, "green is selected", Toast.LENGTH_SHORT).show()
         }
         val redButton: Button = findViewById(R.id.red_button)
         redButton.setOnClickListener {

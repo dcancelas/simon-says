@@ -20,28 +20,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/green_button"
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/green_button"
                 android:layout_width="0dp"
                 android:layout_height="130dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/green"
-                android:insetLeft="5dp"
-                android:insetTop="5dp"
-                android:insetRight="5dp"
-                android:insetBottom="5dp" />
+                android:layout_weight="1" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/red_button"
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/red_button"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:backgroundTint="@color/red"
-                android:insetLeft="5dp"
-                android:insetTop="5dp"
-                android:insetRight="5dp"
-                android:insetBottom="5dp" />
+                android:layout_height="130dp" />
 
         </LinearLayout>
 
@@ -50,27 +40,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/yellow_button"
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/yellow_button"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:backgroundTint="@color/yellow"
-                android:insetLeft="5dp"
-                android:insetTop="5dp"
-                android:insetRight="5dp"
-                android:insetBottom="5dp" />
+                android:layout_height="130dp" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/blue_button"
-                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/blue_button"
                 android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:backgroundTint="@color/blue"
-                android:insetLeft="5dp"
-                android:insetTop="5dp"
-                android:insetRight="5dp"
-                android:insetBottom="5dp" />
+                android:layout_height="130dp" />
 
         </LinearLayout>
 
