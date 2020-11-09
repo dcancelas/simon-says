@@ -1,4 +1,4 @@
-# Simon says
+# Simon Says
 Just an other Simon Says game for Android.
 
 ## Screenshots
