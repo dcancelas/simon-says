@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Simon says</string>
+    <string name="app_name">Simon Says</string>
     <string name="play">Play</string>
     <string name="score">"Score: "</string>
     <string name="best">"Best: "</string>
