@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Simón dice</string>
     <string name="play">Jugar</string>
+    <string name="score">"Puntuación: "</string>
+    <string name="best">"Récord: "</string>
 </resources>
