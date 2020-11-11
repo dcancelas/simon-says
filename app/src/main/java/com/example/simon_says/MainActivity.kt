@@ -4,35 +4,47 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.*
-import org.w3c.dom.Text
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var buttons: Array<Button>
+    //Variables de tipo TextView
+    lateinit var outputText: TextView
+    lateinit var bScoreTextView: TextView
+    lateinit var scoreTextView: TextView
+    //Variables de tipo Button
+    lateinit var playButton: Button
+    lateinit var greenButton: Button
+    lateinit var redButton: Button
+    lateinit var yellowButton: Button
+    lateinit var blueButton: Button
+    //Variables del juego
     private var running: Boolean = false
+    private var bestScore: Int = 0
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val s: TextView = findViewById(R.id.score)
-        s.text = score.toString()
-        val bs: TextView = findViewById(R.id.best_score)
-        bs.text = score.toString()
-        val playButton: Button = findViewById(R.id.play_button)
-        val greenButton: Button = findViewById(R.id.green_button)
-        val redButton: Button = findViewById(R.id.red_button)
-        val yellowButton: Button = findViewById(R.id.yellow_button)
-        val blueButton: Button = findViewById(R.id.blue_button)
-        buttons = arrayOf(playButton,greenButton,redButton,yellowButton,blueButton)
+        bScoreTextView = findViewById(R.id.best_score)
+        bScoreTextView.text = bestScore.toString()
+        scoreTextView = findViewById(R.id.score)
+        scoreTextView.text = score.toString()
+        outputText = findViewById(R.id.output_text)
+
+        playButton = findViewById(R.id.play_button)
+        greenButton = findViewById(R.id.green_button)
+        redButton = findViewById(R.id.red_button)
+        yellowButton = findViewById(R.id.yellow_button)
+        blueButton = findViewById(R.id.blue_button)
 
         playButton.setOnClickListener {
             if (!running) startGame()
-            else {
-
-            }
+            else {}
         }
         greenButton.setOnClickListener {
 
@@ -54,14 +66,19 @@ class MainActivity : AppCompatActivity() {
             for (x in 1..4) {
                 setButton(x,"unpressed")
             }
-            for (x in 1..4) {
-                setButton(x,"pressed")
-                delay(1000)
-                setButton(x,"unpressed")
+
+            for (x in 1..5) {
+                val b = Random.nextInt(1,4)
+                setButton(b,"pressed")
+                delay(500)
+                setButton(b,"unpressed")
+                delay(500)
             }
+
             for (x in 1..4) {
                 setButton(x,"default")
             }
+
             running = false
         }
     }
@@ -69,24 +86,24 @@ class MainActivity : AppCompatActivity() {
     private fun setButton(button: Int, state: String) {
         when (button) {
             1 -> {
-                if (state == "default") buttons[1].setBackgroundResource(R.drawable.green_button)
-                if (state == "pressed") buttons[1].setBackgroundResource(R.drawable.green_pressed_button)
-                if (state == "unpressed") buttons[1].setBackgroundResource(R.drawable.green_unpressed_button)
+                if (state == "default") greenButton.setBackgroundResource(R.drawable.green_button)
+                if (state == "pressed") greenButton.setBackgroundResource(R.drawable.green_pressed_button)
+                if (state == "unpressed") greenButton.setBackgroundResource(R.drawable.green_unpressed_button)
             }
             2 -> {
-                if (state == "default") buttons[2].setBackgroundResource(R.drawable.red_button)
-                if (state == "pressed") buttons[2].setBackgroundResource(R.drawable.red_pressed_button)
-                if (state == "unpressed") buttons[2].setBackgroundResource(R.drawable.red_unpressed_button)
+                if (state == "default") redButton.setBackgroundResource(R.drawable.red_button)
+                if (state == "pressed") redButton.setBackgroundResource(R.drawable.red_pressed_button)
+                if (state == "unpressed") redButton.setBackgroundResource(R.drawable.red_unpressed_button)
             }
             3 -> {
-                if (state == "default") buttons[3].setBackgroundResource(R.drawable.yellow_button)
-                if (state == "pressed") buttons[3].setBackgroundResource(R.drawable.yellow_pressed_button)
-                if (state == "unpressed") buttons[3].setBackgroundResource(R.drawable.yellow_unpressed_button)
+                if (state == "default") yellowButton.setBackgroundResource(R.drawable.yellow_button)
+                if (state == "pressed") yellowButton.setBackgroundResource(R.drawable.yellow_pressed_button)
+                if (state == "unpressed") yellowButton.setBackgroundResource(R.drawable.yellow_unpressed_button)
             }
             4 -> {
-                if (state == "default") buttons[4].setBackgroundResource(R.drawable.blue_button)
-                if (state == "pressed") buttons[4].setBackgroundResource(R.drawable.blue_pressed_button)
-                if (state == "unpressed") buttons[4].setBackgroundResource(R.drawable.blue_unpressed_button)
+                if (state == "default") blueButton.setBackgroundResource(R.drawable.blue_button)
+                if (state == "pressed") blueButton.setBackgroundResource(R.drawable.blue_pressed_button)
+                if (state == "unpressed") blueButton.setBackgroundResource(R.drawable.blue_unpressed_button)
             }
         }
     }
