@@ -7,14 +7,9 @@ import kotlin.random.Random
 
 class MyViewModel : ViewModel() {
 
-    var bDisabled = MutableLiveData<Int>()
-    var bEnabled = MutableLiveData<Int>()
-    var bState = mutableListOf<Int>()
-    var bStateLiveData = MutableLiveData<MutableList<Int>>()
-
-    init {
-        bStateLiveData.value = bState
-    }
+    var bDisabled = MutableLiveData<Boolean>()
+    var bState = MutableLiveData<Int>()
+    var button = 0
 
     /*
     Botones
@@ -29,46 +24,31 @@ class MyViewModel : ViewModel() {
     2 -> unpressed
     */
 
-    private fun startGame() {
+    fun startGame() {
         CoroutineScope(Dispatchers.Main).launch {
-            bDisabled.value = 5
+            button = 5
+            bDisabled.value = true
             for (x in 1..4) {
-                //setButton(x,"unpressed")
-                bDisabled.value = x
-                bState[0] = x
-                bState[1] = 2
+                button = x
+                bDisabled.value = true
+                bState.value = 2
             }
             for (x in 1..5) {
                 val b = Random.nextInt(1,4)
-                //setButton(b,"pressed")
-                bState[0] = b
-                bState[1] = 1
+                button = b
+                bState.value = 1
                 delay(500)
-                //setButton(b,"unpressed")
-                bState[0] = b
-                bState[1] = 2
+                button = b
+                bState.value = 2
                 delay(500)
             }
             for (x in 1..4) {
-                //setButton(x,"default")
-                bEnabled.value = x
-                bState[0] = x
-                bState[1] = 0
+                button = x
+                bDisabled.value = false
+                bState.value = 0
             }
-            bEnabled.value = 5
-        }
-    }
-    fun test() {
-        CoroutineScope(Dispatchers.Main).launch {
-            bDisabled.value = 5
-            for (x in 1..5) {
-                val b = Random.nextInt(1,4)
-                bDisabled.value = b
-                delay(500)
-                bEnabled.value = b
-                delay(500)
-            }
-            bEnabled.value = 5
+            button = 5
+            bDisabled.value = false
         }
     }
 }

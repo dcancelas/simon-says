@@ -42,18 +42,17 @@ class MainActivity : AppCompatActivity() {
         blueButton = findViewById(R.id.blue_button)
 
         myViewModel.bDisabled.observe(this, Observer {
-            button -> disableButton(button)
+            disabled -> run {
+                if (disabled) disableButton(myViewModel.button)
+                else enableButton(myViewModel.button)
+            }
         })
-        myViewModel.bEnabled.observe(this, Observer {
-            button -> enableButton(button)
-        })
-        myViewModel.bStateLiveData.observe(this, Observer {
-            bState -> setButton(bState[0], bState[1])
+        myViewModel.bState.observe(this, Observer {
+            bState -> setButton(myViewModel.button, bState)
         })
 
         playButton.setOnClickListener {
-            //startGame()
-            myViewModel.test()
+            myViewModel.startGame()
         }
         greenButton.setOnClickListener {
 
