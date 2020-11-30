@@ -3,11 +3,9 @@ package com.example.simon_says
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.random.Random
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,13 +20,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var yellowButton: Button
     lateinit var blueButton: Button
     //Variables del juego
-    private var running: Boolean = false
     private var bestScore: Int = 0
     private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val myViewModel by viewModels<MyViewModel>()
 
         bScoreTextView = findViewById(R.id.best_score)
         bScoreTextView.text = bestScore.toString()
@@ -42,9 +41,19 @@ class MainActivity : AppCompatActivity() {
         yellowButton = findViewById(R.id.yellow_button)
         blueButton = findViewById(R.id.blue_button)
 
+        myViewModel.bDisabled.observe(this, Observer {
+            button -> disableButton(button)
+        })
+        myViewModel.bEnabled.observe(this, Observer {
+            button -> enableButton(button)
+        })
+        myViewModel.bStateLiveData.observe(this, Observer {
+            bState -> setButton(bState[0], bState[1])
+        })
+
         playButton.setOnClickListener {
-            if (!running) startGame()
-            else {}
+            //startGame()
+            myViewModel.test()
         }
         greenButton.setOnClickListener {
 
@@ -60,50 +69,67 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun startGame() {
-        GlobalScope.launch {
-            running = true
-            for (x in 1..4) {
-                setButton(x,"unpressed")
+    private fun disableButton(button: Int) {
+        when (button) {
+            1 -> {
+                greenButton.isEnabled = false
             }
-
-            for (x in 1..5) {
-                val b = Random.nextInt(1,4)
-                setButton(b,"pressed")
-                delay(500)
-                setButton(b,"unpressed")
-                delay(500)
+            2 -> {
+                redButton.isEnabled = false
             }
-
-            for (x in 1..4) {
-                setButton(x,"default")
+            3 -> {
+                yellowButton.isEnabled = false
             }
-
-            running = false
+            4 -> {
+                blueButton.isEnabled = false
+            }
+            5 -> {
+                playButton.isEnabled = false
+            }
         }
     }
 
-    private fun setButton(button: Int, state: String) {
+    private fun enableButton(button: Int) {
         when (button) {
             1 -> {
-                if (state == "default") greenButton.setBackgroundResource(R.drawable.green_button)
-                if (state == "pressed") greenButton.setBackgroundResource(R.drawable.green_pressed_button)
-                if (state == "unpressed") greenButton.setBackgroundResource(R.drawable.green_unpressed_button)
+                greenButton.isEnabled = true
             }
             2 -> {
-                if (state == "default") redButton.setBackgroundResource(R.drawable.red_button)
-                if (state == "pressed") redButton.setBackgroundResource(R.drawable.red_pressed_button)
-                if (state == "unpressed") redButton.setBackgroundResource(R.drawable.red_unpressed_button)
+                redButton.isEnabled = true
             }
             3 -> {
-                if (state == "default") yellowButton.setBackgroundResource(R.drawable.yellow_button)
-                if (state == "pressed") yellowButton.setBackgroundResource(R.drawable.yellow_pressed_button)
-                if (state == "unpressed") yellowButton.setBackgroundResource(R.drawable.yellow_unpressed_button)
+                yellowButton.isEnabled = true
             }
             4 -> {
-                if (state == "default") blueButton.setBackgroundResource(R.drawable.blue_button)
-                if (state == "pressed") blueButton.setBackgroundResource(R.drawable.blue_pressed_button)
-                if (state == "unpressed") blueButton.setBackgroundResource(R.drawable.blue_unpressed_button)
+                blueButton.isEnabled = true
+            }
+            5 -> {
+                playButton.isEnabled = true
+            }
+        }
+    }
+
+    private fun setButton(button: Int, state: Int) {
+        when (button) {
+            1 -> {
+                if (state == 0) greenButton.setBackgroundResource(R.drawable.green_button)
+                if (state == 1) greenButton.setBackgroundResource(R.drawable.green_pressed_button)
+                if (state == 2) greenButton.setBackgroundResource(R.drawable.green_unpressed_button)
+            }
+            2 -> {
+                if (state == 0) redButton.setBackgroundResource(R.drawable.red_button)
+                if (state == 1) redButton.setBackgroundResource(R.drawable.red_pressed_button)
+                if (state == 2) redButton.setBackgroundResource(R.drawable.red_unpressed_button)
+            }
+            3 -> {
+                if (state == 0) yellowButton.setBackgroundResource(R.drawable.yellow_button)
+                if (state == 1) yellowButton.setBackgroundResource(R.drawable.yellow_pressed_button)
+                if (state == 2) yellowButton.setBackgroundResource(R.drawable.yellow_unpressed_button)
+            }
+            4 -> {
+                if (state == 0) blueButton.setBackgroundResource(R.drawable.blue_button)
+                if (state == 1) blueButton.setBackgroundResource(R.drawable.blue_pressed_button)
+                if (state == 2) blueButton.setBackgroundResource(R.drawable.blue_unpressed_button)
             }
         }
     }
