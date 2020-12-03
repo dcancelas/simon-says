@@ -1,5 +1,6 @@
 package com.example.simon_says
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
@@ -61,7 +62,7 @@ class MyViewModel : ViewModel() {
             compSequence = emptyList<Int>().toMutableList()
             seqPosition = 0
 
-            sequence.add(Random.nextInt(1,4))
+            sequence.add(Random.nextInt(1,5))
 
             for (x in 1..4) {
                 button = x
