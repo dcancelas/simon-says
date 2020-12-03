@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 
@@ -19,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var redButton: Button
     lateinit var yellowButton: Button
     lateinit var blueButton: Button
-    //Variables del juego
-    private var bestScore: Int = 0
-    private var score: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         val myViewModel by viewModels<MyViewModel>()
 
         bScoreTextView = findViewById(R.id.best_score)
-        bScoreTextView.text = bestScore.toString()
+        bScoreTextView.text = myViewModel.bestScore.value.toString()
         scoreTextView = findViewById(R.id.score)
-        scoreTextView.text = score.toString()
+        scoreTextView.text = myViewModel.score.value.toString()
         outputText = findViewById(R.id.output_text)
 
         playButton = findViewById(R.id.play_button)
@@ -41,30 +39,48 @@ class MainActivity : AppCompatActivity() {
         yellowButton = findViewById(R.id.yellow_button)
         blueButton = findViewById(R.id.blue_button)
 
-        myViewModel.bDisabled.observe(this, Observer {
-            disabled -> run {
+        myViewModel.running.observe(this, Observer { running ->
+            run {
+                if (!running) {
+                    myViewModel.endGame()
+                    endGameDialog()
+                }
+            }
+        })
+        myViewModel.bestScore.observe(this, Observer { bestScore ->
+            bScoreTextView.text = bestScore.toString()
+        })
+        myViewModel.score.observe(this, Observer { score ->
+            scoreTextView.text = score.toString()
+        })
+        myViewModel.bDisabled.observe(this, Observer { disabled ->
+            run {
                 if (disabled) disableButton(myViewModel.button)
                 else enableButton(myViewModel.button)
             }
         })
-        myViewModel.bState.observe(this, Observer {
-            bState -> setButton(myViewModel.button, bState)
+        myViewModel.bState.observe(this, Observer { bState ->
+            setButtonState(myViewModel.button, bState)
         })
 
         playButton.setOnClickListener {
             myViewModel.startGame()
         }
         greenButton.setOnClickListener {
-
+            if (myViewModel.running.value == true)
+                myViewModel.compareSequences(1)
         }
         redButton.setOnClickListener {
-
+            if (myViewModel.running.value == true)
+                myViewModel.compareSequences(2)
         }
         yellowButton.setOnClickListener {
-
+            if (myViewModel.running.value == true)
+                myViewModel.compareSequences(3)
         }
         blueButton.setOnClickListener {
-
+            if (myViewModel.running.value == true)
+                myViewModel.compareSequences(4)
         }
     }
 
@@ -108,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setButton(button: Int, state: Int) {
+    private fun setButtonState(button: Int, state: Int) {
         when (button) {
             1 -> {
                 if (state == 0) greenButton.setBackgroundResource(R.drawable.green_button)
@@ -131,5 +147,12 @@ class MainActivity : AppCompatActivity() {
                 if (state == 2) blueButton.setBackgroundResource(R.drawable.blue_unpressed_button)
             }
         }
+    }
+
+    private fun endGameDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.game_over)
+        builder.setPositiveButton(R.string.ok, null)
+        val dialog = builder.create().show()
     }
 }

@@ -4,4 +4,6 @@
     <string name="play">Jugar</string>
     <string name="score">"Puntuación: "</string>
     <string name="best">"Récord: "</string>
+    <string name="game_over" >¡Has perdido!</string>
+    <string name="ok" >Aceptar</string>
 </resources>
